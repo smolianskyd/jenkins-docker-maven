@@ -32,9 +32,15 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Ship') {
             steps {
-                sh 'echo deploy script goes here'
+                dir("my-api") {
+                    sh 'cp target/my-api-' + '1.0.1.' + $TIMESTAMP + ' src/main/docker/my-api.jar'
+                }
+
+               sh 'mvn docker:build'
+               sh 'mvn docker:push'
+
             }
         }
     }
