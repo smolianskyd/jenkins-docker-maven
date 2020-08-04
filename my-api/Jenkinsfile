@@ -20,6 +20,7 @@ pipeline {
             }
         }
 
+        /* tests are skipped
         stage('Test') {
             steps {
                 dir("my-api") {
@@ -31,7 +32,8 @@ pipeline {
                     junit 'target/surefire-reports/*.xml'
                 }
             }
-        }
+        }*/
+
         stage('Ship') {
             steps {
                 dir("my-api") {
