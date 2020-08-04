@@ -1,18 +1,21 @@
 pipeline {
-    
+
+    agent {
+        label 'docker'
+    }
+
     environment {
         def TIMESTAMP = sh(script: "echo `date +%s`", returnStdout: true).trim()
     }
 
     stages {
-        stage('Initialize'){
-            steps{
-                def dockerHome = tool 'MyDocker'
-                def mavenHome  = tool 'MyMaven'
-                env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
-            }   
+        agent {
+            docker {
+                // Set both label and image
+                label 'docker'
+                image 'maven:3-alpine'
+            }
         }
-        
         stage('Build') { 
             steps {
                 sh 'mvn -B -DskipTests clean package' 
