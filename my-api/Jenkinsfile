@@ -8,7 +8,7 @@ pipeline {
     }
 
     environment {
-        def TIMESTAMP = sh(script: "echo `date +%s`", returnStdout: true).trim()
+        TIMESTAMP = sh(script: "echo `date +%s`", returnStdout: true).trim()
     }
 
     stages {
@@ -37,7 +37,7 @@ pipeline {
         stage('Ship') {
             steps {
                 dir("my-api") {
-                    sh 'cp target/my-api-' + '1.0.1.' + $TIMESTAMP + ' src/main/docker/my-api.jar'
+                    sh 'cp target/my-api-' + '1.0.1.' + ${TIMESTAMP} + ' src/main/docker/my-api.jar'
                 }
 
                sh 'mvn docker:build'
