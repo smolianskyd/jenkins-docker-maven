@@ -1,11 +1,11 @@
 pipeline {
     
-    // agent {
-    //     docker {
-    //         image 'dozza/jenkins-jdk11-mvn-dnd'
-    //     }
-    // }
-    agent any
+        agent {
+        docker {
+            image 'adoptopenjdk/maven-openjdk11'
+            args '-v /root/.m2:/root/.m2 -v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     environment {
         TIMESTAMP = sh(script: "echo `date +%s`", returnStdout: true).trim()
     }
