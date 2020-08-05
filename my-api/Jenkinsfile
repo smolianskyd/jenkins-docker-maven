@@ -3,7 +3,7 @@ pipeline {
         agent {
         docker {
             image 'adoptopenjdk/maven-openjdk11'
-            args '-v /root/.m2:/root/.m2 -v /var/run/docker.sock:/var/run/docker.sock'
+            args '-v /root/.m2:/root/.m2'
         }
     }
     environment {
@@ -11,38 +11,12 @@ pipeline {
     }
 
     stages {
-        stage('Build') { 
+        stage('Build container and push') { 
             steps {
                 dir("my-api") {
                     sh 'mvn -B -DskipTests clean package docker:build docker:push'
                 }
             }
         }
-
-        /* tests are skipped
-        stage('Test') {
-            steps {
-                dir("my-api") {
-                    sh 'mvn test'
-                }
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }*/
-
-        // stage('Ship') {
-        //     steps {
-        //         dir("my-api") {
-        //             sh 'cp target/my-api-1.0.1.${TIMESTAMP}.jar src/main/docker/my-api.jar'
-        //         }
-
-        //        sh 'mvn docker:build'
-        //        sh 'mvn docker:push'
-
-        //     }
-        // }
     }
 }
