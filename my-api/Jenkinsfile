@@ -14,9 +14,9 @@ pipeline {
         stage('Build container and push') { 
             steps {
                 dir("my-api") {
-                    sh 'mvn -B -DskipTests clean install'
-                    sh 'cp target/my-api-1.0.1.${TIMESTAMP}.jar src/main/docker/my-api.jar'
-                    sh 'mvn docker:build docker:push'
+                    // sh 'mvn  install'
+                    // sh 'cp target/my-api-1.0.1.${TIMESTAMP}.jar src/main/docker/my-api.jar'
+                    sh 'mvn -B -DskipTests clean package docker:build docker:push'
                 }
             }
         }
