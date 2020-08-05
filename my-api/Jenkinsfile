@@ -14,7 +14,7 @@ pipeline {
         stage('Build') { 
             steps {
                 dir("my-api") {
-                    sh 'mvn -B -DskipTests clean package'
+                    sh 'mvn -B -DskipTests clean package docker:build docker:push'
                 }
             }
         }
@@ -33,16 +33,16 @@ pipeline {
             }
         }*/
 
-        stage('Ship') {
-            steps {
-                dir("my-api") {
-                    sh 'cp target/my-api-1.0.1.${TIMESTAMP}.jar src/main/docker/my-api.jar'
-                }
+        // stage('Ship') {
+        //     steps {
+        //         dir("my-api") {
+        //             sh 'cp target/my-api-1.0.1.${TIMESTAMP}.jar src/main/docker/my-api.jar'
+        //         }
 
-               sh 'mvn docker:build'
-               sh 'mvn docker:push'
+        //        sh 'mvn docker:build'
+        //        sh 'mvn docker:push'
 
-            }
-        }
+        //     }
+        // }
     }
 }
