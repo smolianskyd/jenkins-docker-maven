@@ -13,17 +13,13 @@ pipeline {
     stages {
         stage('Build container and push') { 
             steps {
+                cleanWs()
                 dir("my-api") {
                     sh 'mvn -B -DskipTests clean install'
                     sh 'cp target/my-api-1.0.1.${TIMESTAMP}.jar src/main/docker/my-api.jar'
                     sh 'mvn docker:build docker:push'
                 }
             }
-        }
-    }
-    post { 
-        always { 
-            cleanWs()
         }
     }
 }
