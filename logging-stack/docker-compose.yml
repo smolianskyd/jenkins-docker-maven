@@ -39,5 +39,15 @@ services:
     networks:
       - correvate
 
-  # TODO: include app...
- 
+  my-api:
+    image: my-api:latest
+    command: [/bin/echo, "Doron correvate"]
+    depends_on:
+      - fluentbit
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: my-api 
+    networks:
+      - correvate
